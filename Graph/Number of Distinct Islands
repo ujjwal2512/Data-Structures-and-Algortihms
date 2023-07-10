@@ -1,0 +1,53 @@
+ private:
+    void bfs(int i,int j,vector<vector<int>>&vis,vector<vector<int>>&grid,set<vector<pair<int,int>>>&s){
+         int n=grid.size();
+        int m=grid[0].size();
+        int dx[4]={-1,0,1,0};
+        int dy[4]={0,-1,0,1};
+        vector<pair<int,int>>counter;
+        queue<pair<int,int>>q;
+        q.push({i,j});
+        vis[i][j]=1;
+        counter.push_back({i-i,j-j});
+        while(!q.empty()){
+            int r=q.front().first;
+            int c=q.front().second;
+            q.pop();
+            for(int k=0;k<4;k++){
+                int r_new=r+dx[k];
+                int c_new=c+dy[k];
+                if(r_new>=0&&r_new<n&&c_new>=0&&c_new<m&&vis[r_new][c_new]==0&&grid[r_new][c_new]==1){
+                    vis[r_new][c_new]=1;
+                    q.push({r_new,c_new});
+                    counter.push_back({r_new-i,c_new-j});
+                    
+                }
+            }
+        }
+        //ort(counter.begin(),counter.end());
+        // for(int i=0;i<counter.size();i++){
+        //     cout<<counter[i].first<<counter[i].second<<" ";
+        // }
+        // cout<<"\n";
+        s.insert(counter);
+        
+    }
+  public:
+    int countDistinctIslands(vector<vector<int>>& grid) {
+        // code here
+         int n=grid.size();
+        int m=grid[0].size();
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        set<vector<pair<int,int>>>s;
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+               if(!vis[i][j]&& grid[i][j]==1){
+                   bfs(i,j,vis,grid,s);
+                   
+               } 
+            }
+        }
+        return s.size();
+        
+    }
