@@ -1,0 +1,32 @@
+ private:
+    void dfs(int i,vector<int>adj[],int vis[],stack<int>&s){
+        vis[i]=1;
+        for(auto it:adj[i]){
+            if(!vis[it]){
+                vis[it]=1;
+                
+                dfs(it,adj,vis,s);
+            }
+        }
+        s.push(i);
+    }
+    
+	public:
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // code here
+	    int vis[V]={0};
+	    stack<int>s;
+	    for(int i=0;i<V;i++){
+	        if(!vis[i]){
+	            dfs(i,adj,vis,s);
+	        }
+	    }
+	    vector<int>ans;
+	    while(!s.empty()){
+	        ans.push_back(s.top());
+	        s.pop();
+	    }
+	    return ans;
+	}
